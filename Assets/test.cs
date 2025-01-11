@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class test : MonoBehaviour
+public class RotateObject : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        //
-    }
+    public float rotationSpeed; // 회전 속도
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Y축을 기준으로 회전
+        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 }
