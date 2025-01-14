@@ -1,1 +1,6 @@
 Play Mode Save
+플레이 모드 중이어도
+인스펙터-컴포넌트에 우클릭하면 상태 저장 가능
+
+Fast Script Reload
+CTRL + R - auto refresh
