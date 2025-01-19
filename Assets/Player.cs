@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     Vector2 movement;
-    int direction; // 애니메이션 방향 (상:0, 우:1, 하:2, 좌:3)
+    int direction = 2; // 애니메이션 방향 (상:0, 우:1, 하:2, 좌:3)
 
     void Awake()
     {
@@ -21,15 +21,15 @@ public class PlayerController : MonoBehaviour
 
         movement = new Vector2(horizontal, vertical);
 
-        // 방향 계산 (대각선 이동 시 수평 애니메이션 우선)
-        if (movement.x != 0) { // 수평 우선(필터링)
+        // 대각선 이동 시 수평 애니메이션 우선
+        if (movement.x != 0) { // 필터링
             direction = (movement.x > 0) ? 1 : 3; // 우(1), 좌(3)
         } else if (movement.y != 0) {
             direction = (movement.y > 0) ? 0 : 2; // 상(0), 하(2)
         }
 
-        // animator.SetInteger("Direction", direction);
-        // animator.SetBool("IsMoving", movement != Vector2.zero);
+        animator.SetInteger("Direction", direction);
+        animator.SetBool("IsMoving", movement != Vector2.zero);
     }
 
     void FixedUpdate()
