@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetInteger("Direction", direction);
+        animator.SetFloat("F_Direction", direction);
         animator.SetBool("IsMoving", movement != Vector2.zero);
     }
 
