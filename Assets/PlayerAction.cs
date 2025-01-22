@@ -1,12 +1,14 @@
 using UnityEngine;
 
-public class PlayerRaycaster : MonoBehaviour
+public class PlayerAction : MonoBehaviour
 {
   PlayerController playerController;
-  public float rayDistance = 2f; // Ray 거리
-  Vector3 rayDirection; // 기본 Ray 방향
-  public Vector3 rayOffset = new Vector3(0, 0.7f, 0); // Ray 시작점 오프셋
-  public Color rayColor = Color.green; // Ray 선의 색상
+  // Ray
+  [Header ("Ray")]
+  Vector3 rayDirection;
+  public float rayDistance = 2f;
+  public Vector3 rayOffset = new Vector3(0, 0.7f, 0); // Ray 시작점
+  public Color rayColor = Color.green;
 
   void Awake()
   {
@@ -15,26 +17,23 @@ public class PlayerRaycaster : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.Space)) {      
+    if (Input.GetKeyDown(KeyCode.Space))
       CheckObject();
-    }
   }
 
   void CheckObject()
   {
-      Vector3 startPosition = ChangeDirection();
+    Vector3 startPosition = ChangeDirection();
+    // Raycast로 오브젝트 감지
+    RaycastHit2D hit = Physics2D.Raycast(startPosition, rayDirection, rayDistance);
 
-      // Raycast로 오브젝트 감지
-      RaycastHit2D hit = Physics2D.Raycast(startPosition, rayDirection, rayDistance);
-
-      if (hit.collider != null) {
-          Debug.Log($"오브젝트: {hit.collider.gameObject.name}");
-      } else {
-          Debug.Log("없음");
-      }
+    if (hit.collider != null) {
+      GameManager.Instance.ScanObject(hit.collider.gameObject);
+      Debug.Log($"오브젝트: {hit.collider.gameObject.name}");
+    } else Debug.Log("없음");
   }
 
-  void OnDrawGizmos() // Gizmos는 이 함수 안에서만 작동
+  void OnDrawGizmos() // 디버그. Gizmos는 이 함수 안에서만 작동
   {
     Vector3 startPosition = ChangeDirection();   
     Gizmos.DrawLine(startPosition, startPosition + rayDirection * rayDistance);
@@ -43,7 +42,7 @@ public class PlayerRaycaster : MonoBehaviour
 
   Vector3 ChangeDirection()
   {
-    Vector3 startPosition = transform.position; // 기본 시작점
+    Vector3 startPosition = transform.position; // 시작점
 
     switch (playerController?.direction) {
       case 0: // 상
