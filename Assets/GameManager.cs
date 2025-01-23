@@ -4,22 +4,44 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance; // 싱글톤
+    [Header("UI")]
     public GameObject dialoguePanel;
+    GameObject interactionObject;
     public TextMeshProUGUI scanText;
+    public TalkManager talkManager;
+    public int talkIndex;
     public bool isDialogueActive = false;
 
     void Awake()
     {
         // 싱글톤
-        if  (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else Destroy(gameObject);
+
+        dialoguePanel.SetActive(false);
     }
 
-    public void ScanObject(GameObject obj)
+    public void GetObject(GameObject obj)
     {
-        scanText.text = "오브젝트: " + obj.name;
+        interactionObject = obj;
+        ObjData objData = obj.GetComponent<ObjData>();
+        Talk(objData.id, objData.isNPC);
+        dialoguePanel.SetActive(isDialogueActive);
+    }
 
-        dialoguePanel.SetActive(!isDialogueActive);
-        isDialogueActive = !isDialogueActive;
+    void Talk(int id, bool isNPC)
+    {
+        string talkData = talkManager.GetTalk(id, talkIndex);
+        scanText.text = interactionObject.name +": "+ talkData;
+
+        if(talkData == null) {
+            isDialogueActive = false;
+            talkIndex = 0;
+            return;
+        }
+        isDialogueActive = true;
+        talkIndex++;
     }
 }

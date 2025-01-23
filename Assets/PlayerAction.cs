@@ -28,7 +28,7 @@ public class PlayerAction : MonoBehaviour
     RaycastHit2D hit = Physics2D.Raycast(startPosition, rayDirection, rayDistance);
 
     if (hit.collider != null) {
-      GameManager.Instance.ScanObject(hit.collider.gameObject);
+      GameManager.Instance.GetObject(hit.collider.gameObject);
       Debug.Log($"오브젝트: {hit.collider.gameObject.name}");
     } else Debug.Log("없음");
   }
