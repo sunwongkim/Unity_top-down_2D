@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ObjData : MonoBehaviour
 {
-    public int id;
-    public bool isNPC;
+    public int ID;
+    public int eventID;
+    public bool NPC;
 }
