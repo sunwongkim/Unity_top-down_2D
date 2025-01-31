@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // 대화창 조작 제한
-        if (GameManager.Instance.isTalk) {
+        if (GameManager.Instance.isTalking) {
             animator.SetBool("IsMoving", false);
             return;
         }

@@ -13,12 +13,11 @@ public class GameManager : MonoBehaviour
     [Header("TALK")]
     public TalkManager talkManager;
     public int talkIndex;
-    public bool isTalk = false;
+    public bool isTalking = false;
 
     void Awake()
     {
-        // 싱글톤
-        if (Instance == null) {
+        if (Instance == null) { // 싱글톤
             Instance = this;
             DontDestroyOnLoad(gameObject);
         } else Destroy(gameObject);
@@ -26,39 +25,43 @@ public class GameManager : MonoBehaviour
         dialoguePanel.SetActive(false);
     }
 
-    public void GetObject(GameObject obj)
+    public void Interaction(GameObject obj) // Space bar
     {
         interactionObject = obj;
         ObjData objData = obj.GetComponent<ObjData>();
         Talk(objData.ID, objData.NPC);
-        dialoguePanel.SetActive(isTalk);
+        dialoguePanel.SetActive(isTalking);
     }
 
-    void Talk(int id, bool NPC)
+    void Talk(int ID, bool NPC)
     {
-        string[] data = talkManager.GetTalk((TalkManager.ObjectID)id);
+        var data = talkManager.GetTalk((TalkManager.ObjectID)ID);
 
-        // 대화가 끝나면 대화창 닫음
-        if (talkIndex >= data.Length) {
+        // 대사 끝난 경우
+        if (talkIndex >= data.Count) {
             talkIndex = 0;
-            isTalk = false;
+            isTalking = false;
             dialoguePanel.SetActive(false);
             return;
         }
-
+        
+        var (portrait, dialogue) = data[talkIndex]; // 반드시 여기 위치
+        
         // 초상화
-        if (interactionObject.name == "Box")
-            // portraitImg.sprite = TalkManager.WOMAN_TALK;
-            portraitImg.sprite = talkManager.portraitArr[0];
-        else
-            // portraitImg.sprite = TalkManager.MAN_TALK;
-            portraitImg.sprite = talkManager.portraitArr[5];
-        // 대사
-        DialogueText.text = $"{interactionObject.name}: {data[talkIndex]}";
+        if ((portrait != TalkManager.PLAYER) || (portrait != null)){
+            portraitImg.sprite = portrait;
+            portraitImg.gameObject.SetActive(true);
+        } else portraitImg.gameObject.SetActive(false);
 
-        // 배열이 안끝난 경우
+        // 대사
+        if (portrait == TalkManager.PLAYER) {
+            DialogueText.text =  $"플레이어: {dialogue}";
+        } else
+            DialogueText.text = $"{interactionObject.name}: {dialogue}";
+
+        // 대사 남은 경우
         talkIndex++;
-        isTalk = true;
+        isTalking = true;
         dialoguePanel.SetActive(true);
     }
 }

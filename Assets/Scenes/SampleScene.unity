@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 170967729}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -420,6 +420,7 @@ MonoBehaviour:
   - {fileID: 21300002, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
   - {fileID: 21300004, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
   - {fileID: 21300006, guid: d79edf18a76e2654a9ac99f15de8b2b3, type: 3}
+  - {fileID: 0}
 --- !u!4 &206642524
 Transform:
   m_ObjectHideFlags: 0
