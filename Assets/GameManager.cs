@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public TalkManager talkManager;
     public int talkIndex;
     public bool isTalking = false;
+    [Header("QUEST")]
+    public int questState;
 
     void Awake()
     {
@@ -29,11 +31,11 @@ public class GameManager : MonoBehaviour
     {
         interactionObject = obj;
         ObjData objData = obj.GetComponent<ObjData>();
-        Talk(objData.ID, objData.NPC);
+        Talk(objData.ID);
         dialoguePanel.SetActive(isTalking);
     }
 
-    void Talk(int ID, bool NPC)
+    void Talk(int ID)
     {
         var data = talkManager.GetTalk((TalkManager.ObjectID)ID);
 
@@ -44,19 +46,16 @@ public class GameManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             return;
         }
-        
-        var (portrait, dialogue) = data[talkIndex]; // 반드시 여기 위치
-        
-        // 초상화
-        if ((portrait != TalkManager.PLAYER) || (portrait != null)){
-            portraitImg.sprite = portrait;
-            portraitImg.gameObject.SetActive(true);
-        } else portraitImg.gameObject.SetActive(false);
 
+        var (portrait, dialogue) = data[talkIndex]; // 반드시 여기 위치
+
+        // 초상화
+        portraitImg.sprite = portrait;
+        portraitImg.gameObject.SetActive((portrait != TalkManager.PLAYER) && (portrait != TalkManager.OBJECT));
         // 대사
-        if (portrait == TalkManager.PLAYER) {
-            DialogueText.text =  $"플레이어: {dialogue}";
-        } else
+        if (portrait == TalkManager.PLAYER)
+            DialogueText.text = $"플레이어: {dialogue}";
+        else
             DialogueText.text = $"{interactionObject.name}: {dialogue}";
 
         // 대사 남은 경우

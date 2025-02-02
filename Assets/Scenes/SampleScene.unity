@@ -157,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 143171022}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -292,7 +292,7 @@ Transform:
   m_GameObject: {fileID: 170967722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -5, z: 0}
+  m_LocalPosition: {x: 4, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -343,7 +343,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9, y: 1}
+  m_Size: {x: 0.7, y: 0.8}
   m_EdgeRadius: 0
 --- !u!95 &170967728
 Animator:
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayDistance: 0.5
   rayOffset: {x: 0, y: 0.7, z: 0}
-  rayColor: {r: 0, g: 1, b: 0, a: 1}
+  rayColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &206642522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,7 +2029,8 @@ MonoBehaviour:
   DialogueText: {fileID: 1376598836}
   talkManager: {fileID: 206642523}
   talkIndex: 0
-  isTalk: 0
+  isTalking: 0
+  questState: 0
 --- !u!4 &1057140521
 Transform:
   m_ObjectHideFlags: 0
@@ -2959,7 +2960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3922187651551388245, guid: 9161747db714a64468ede2b576e30391, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3922187651551388245, guid: 9161747db714a64468ede2b576e30391, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3200,11 +3201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3970063388668631605, guid: f11cc747259aab5488af95cde444c895, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3970063388668631605, guid: f11cc747259aab5488af95cde444c895, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3970063388668631605, guid: f11cc747259aab5488af95cde444c895, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3257,11 +3258,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5700187980638137338, guid: 67dfc84d0c7e6b14f9a5af8cfcae3a12, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5700187980638137338, guid: 67dfc84d0c7e6b14f9a5af8cfcae3a12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5700187980638137338, guid: 67dfc84d0c7e6b14f9a5af8cfcae3a12, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3322,7 +3323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1047145188082721819, guid: 33f25168887f7104fb1692d575568537, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 1047145188082721819, guid: 33f25168887f7104fb1692d575568537, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3387,11 +3388,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3922187651551388245, guid: 63b4910cc07a29448b88191937cbd391, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3922187651551388245, guid: 63b4910cc07a29448b88191937cbd391, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 3922187651551388245, guid: 63b4910cc07a29448b88191937cbd391, type: 3}
       propertyPath: m_LocalPosition.z
