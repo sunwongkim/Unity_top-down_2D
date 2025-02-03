@@ -37,26 +37,30 @@ public class GameManager : MonoBehaviour
 
     void Talk(int ID)
     {
-        var data = talkManager.GetTalk((TalkManager.ObjectID)ID);
-
+        var data = talkManager.GetTalk((TalkManager.OBJECTID)ID);
+        
         // 대사 끝난 경우
-        if (talkIndex >= data.Count) {
+        if (data == null || talkIndex >= data.Count) {
             talkIndex = 0;
             isTalking = false;
             dialoguePanel.SetActive(false);
             return;
         }
 
-        var (portrait, dialogue) = data[talkIndex]; // 반드시 여기 위치
+        Dialogue dialogue = data[talkIndex]; // 반드시 여기 위치
 
         // 초상화
-        portraitImg.sprite = portrait;
-        portraitImg.gameObject.SetActive((portrait != TalkManager.PLAYER) && (portrait != TalkManager.OBJECT));
+        portraitImg.sprite = dialogue.Portrait;
+        portraitImg.gameObject.SetActive((dialogue.Portrait != TalkManager.PLAYER) && (dialogue.Portrait != TalkManager.OBJECT));
+
         // 대사
-        if (portrait == TalkManager.PLAYER)
-            DialogueText.text = $"플레이어: {dialogue}";
+        if (dialogue.Portrait == TalkManager.PLAYER)
+            DialogueText.text = $"플레이어: {dialogue.Text}";
         else
-            DialogueText.text = $"{interactionObject.name}: {dialogue}";
+            DialogueText.text = $"{interactionObject.name}: {dialogue.Text}";
+
+        dialogue.EventAction?.Invoke(); // 이벤트 실행
+        if (dialogue.QuestProgress) questState++; // 퀘스트 진행
 
         // 대사 남은 경우
         talkIndex++;
