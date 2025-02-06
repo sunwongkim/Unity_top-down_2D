@@ -35,11 +35,11 @@ public class GameManager : MonoBehaviour
         dialoguePanel.SetActive(isTalking);
     }
 
-    void Talk(int ID)
+    void Talk(int id)
     {
-        var data = talkManager.GetTalk((TalkManager.OBJECTID)ID);
+        var (currentQuest, data) = talkManager.GetTalk(id); // 여기
         
-        // 대사 끝난 경우
+        // 대화끝
         if (data == null || talkIndex >= data.Count) {
             talkIndex = 0;
             isTalking = false;
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Dialogue dialogue = data[talkIndex]; // 반드시 여기 위치
+        Dialogue dialogue = data[talkIndex];
 
         // 초상화
         portraitImg.sprite = dialogue.Portrait;
@@ -60,9 +60,11 @@ public class GameManager : MonoBehaviour
             DialogueText.text = $"{interactionObject.name}: {dialogue.Text}";
 
         dialogue.EventAction?.Invoke(); // 이벤트 실행
-        if (dialogue.QuestProgress) questState++; // 퀘스트 진행
+        
+        if (currentQuest == questState && dialogue.QuestProgress )
+            questState++; // 다음 퀘스트
 
-        // 대사 남은 경우
+        // 대화중
         talkIndex++;
         isTalking = true;
         dialoguePanel.SetActive(true);
