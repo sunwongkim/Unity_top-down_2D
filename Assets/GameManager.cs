@@ -1,3 +1,4 @@
+// GameManager.cs //
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -37,8 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Talk(int id)
     {
-        var (currentQuest, data) = talkManager.GetTalk(id); // 여기
-        
+        var (data, currentQuest) = talkManager.GetTalk(id);
         // 대화끝
         if (data == null || talkIndex >= data.Count) {
             talkIndex = 0;
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 
         dialogue.EventAction?.Invoke(); // 이벤트 실행
         
-        if (currentQuest == questState && dialogue.QuestProgress )
+        if ((currentQuest == questState) && dialogue.QuestProgress)
             questState++; // 다음 퀘스트
 
         // 대화중
