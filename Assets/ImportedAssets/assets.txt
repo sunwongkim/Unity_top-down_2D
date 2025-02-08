@@ -7,3 +7,5 @@ CTRL + R - auto refresh
 
 Hierarchy Designer
 Hierarchy 가시성 개선
+
+Dotween Pro
