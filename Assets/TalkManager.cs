@@ -9,7 +9,7 @@ public class TalkManager : MonoBehaviour
     public Sprite[] portraitArr;
     public class OBJECTID { public const int Box = 100, Desk = 200, Rock = 300, NpcMan = 1000, NpcWoman = 2000; }
     public static List<string> QuestNames = new List<string> {
-        /*0*/"없음", /*1*/"첫인사", /*2*/"조언", /*3*/"선물", /*4*/"비밀 퀘스트", /*5*/"이동"   
+        /*0*/"시작", /*1*/"첫인사", /*2*/"조언", /*3*/"선물", /*4*/"비밀 퀘스트", /*5*/"Q5"   
     };
     public List<int> targetObjects = new List<int>();
     public static Sprite MAN_IDLE, MAN_TALK, MAN_SMILE, MAN_ANGRY, WOMAN_IDLE, WOMAN_TALK, WOMAN_SMILE, WOMAN_ANGRY, PLAYER, OBJECT;
@@ -60,8 +60,8 @@ public class TalkManager : MonoBehaviour
                     new Dialogue(OBJECT, "만지지 마시게.", true),}}}
             },
             { 5, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.Desk, new List<Dialogue> {
-                    new Dialogue(OBJECT, "QUEST 5"),}}}
+                { OBJECTID.Box, new List<Dialogue> {
+                    new Dialogue(OBJECT, "QUEST 5", true),}}}
             },
         };
         
