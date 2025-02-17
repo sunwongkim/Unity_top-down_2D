@@ -29,11 +29,11 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         } else Destroy(gameObject);
-        
+
         // NPC위치를 ID로 탐색
         foreach (ObjData npc in FindObjectsByType<ObjData>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             npcPosition[npc.ID] = npc;
-        QuestMarker.transform.position = npcPosition[talkManager.targetObjects[questState]].transform.position + markerOffset;
+        QuestMarker.transform.position = npcPosition[talkManager.QuestTargetObjects[questState]].transform.position + markerOffset;
         // UI
         dialoguePanel.SetActive(false);
         QuestName.text = $"{questState} : {TalkManager.QuestNames[questState]}";
@@ -56,12 +56,13 @@ public class GameManager : MonoBehaviour
             talkIndex = 0;
             isTalking = false;
             dialoguePanel.SetActive(false);
+            FindFirstObjectByType<PlayerAction>().ResetObject();
             // 다음 퀘스트
             if (questState < TalkManager.QuestNames.Count)
                 QuestName.text = $"{questState} : {TalkManager.QuestNames[questState]}";
             // 퀘스트 마커 위치
-            if (questState < talkManager.targetObjects.Count)
-                QuestMarker.transform.position = npcPosition[talkManager.targetObjects[questState]].transform.position + markerOffset;
+            if (questState < talkManager.QuestTargetObjects.Count)
+                QuestMarker.transform.position = npcPosition[talkManager.QuestTargetObjects[questState]].transform.position + markerOffset;
             return;
         }
 

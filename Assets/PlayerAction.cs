@@ -1,9 +1,11 @@
+// PlayerAction.cs //
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
   PlayerController playerController;
-  // Ray
+  public GameObject noneObject;
+  public GameObject currentObject;
   [Header ("Ray")]
   Vector3 rayDirection;
   public float rayDistance = 2f;
@@ -13,6 +15,8 @@ public class PlayerAction : MonoBehaviour
   void Awake()
   {
     playerController = GetComponent<PlayerController>();
+    noneObject = new GameObject("NoneObject");
+    currentObject = noneObject;
   }
 
   void Update()
@@ -28,10 +32,22 @@ public class PlayerAction : MonoBehaviour
     RaycastHit2D hit = Physics2D.Raycast(startPosition, rayDirection, rayDistance);
 
     if (hit.collider != null) {
-      GameManager.Instance.Interaction(hit.collider.gameObject);
-      Debug.Log($"오브젝트: {hit.collider.gameObject.name}");
-    } else Debug.Log("없음");
+      if ((currentObject == noneObject) && (hit.collider.GetComponent<ObjData>() != null)) {
+        currentObject = hit.collider.gameObject;
+      } else if (currentObject != noneObject) { // 전방 오브젝트 없어져도 대화 유지
+        Debug.Log("대화 유지: currentObject != noneObject");
+      }
+      Debug.Log("스캔: " + hit.collider.gameObject.name);
+      Debug.Log("대화중: " + currentObject.name);
+    } else {
+      Debug.Log("hit.collider == null");
+    }
+    GameManager.Instance.Interaction(currentObject);
   }
+
+  public void ResetObject() => currentObject = noneObject;
+
+  public void PlayerObject(GameObject obj) => currentObject = obj;
 
   void OnDrawGizmos() // 디버그. Gizmos는 이 함수 안에서만 작동
   {
@@ -62,4 +78,3 @@ public class PlayerAction : MonoBehaviour
     return startPosition;
   }
 }
-

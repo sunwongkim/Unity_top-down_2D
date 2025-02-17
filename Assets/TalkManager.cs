@@ -7,11 +7,11 @@ public class TalkManager : MonoBehaviour
 {
     public EventManager eventManager;
     public Sprite[] portraitArr;
-    public class OBJECTID { public const int Box = 100, Desk = 200, Rock = 300, NpcMan = 1000, NpcWoman = 2000; }
+    public class OBJECTID { public const int Player = 1, Box = 100, Desk = 200, Rock = 300, NpcMan = 1000, NpcWoman = 2000; }
     public static List<string> QuestNames = new List<string> {
         /*0*/"시작", /*1*/"첫인사", /*2*/"조언", /*3*/"선물", /*4*/"비밀 퀘스트", /*5*/"Q5"   
     };
-    public List<int> targetObjects = new List<int>();
+    public List<int> QuestTargetObjects = new List<int>();
     public static Sprite MAN_IDLE, MAN_TALK, MAN_SMILE, MAN_ANGRY, WOMAN_IDLE, WOMAN_TALK, WOMAN_SMILE, WOMAN_ANGRY, PLAYER, OBJECT;
     Dictionary<int, Dictionary<int, List<Dialogue>>> talkData;
 
@@ -21,14 +21,18 @@ public class TalkManager : MonoBehaviour
 
         talkData = new Dictionary<int, Dictionary<int, List<Dialogue>>>() {
             { 0, new Dictionary<int, List<Dialogue>>() {
+                { OBJECTID.Player, new List<Dialogue> {
+                    new Dialogue(PLAYER, "새로운 마을이다."),
+                    new Dialogue(PLAYER, "몸을 움직여보자.", false, eventManager.PlayAniTween),
+                    new Dialogue(PLAYER, "출발해볼까."),}},
                 { OBJECTID.NpcMan, new List<Dialogue> {
-                    new Dialogue(MAN_TALK, "처음 보는군."),
-                    new Dialogue(PLAYER, "옆 마을에서 왔어."),
+                    new Dialogue(MAN_ANGRY, "처음 보는군."),
+                    new Dialogue(PLAYER, "옆 마을에서 왔어.", false, eventManager.PlayAniTween),
                     new Dialogue(MAN_SMILE, "이방인은 오랜만이야."),}},
                 { OBJECTID.NpcWoman, new List<Dialogue> {
                     new Dialogue(WOMAN_TALK, "안녕?"),
                     new Dialogue(WOMAN_SMILE, "..대답 안하니?"),
-                    new Dialogue(WOMAN_SMILE, "야!!!", true, eventManager.npcAngry),
+                    new Dialogue(WOMAN_ANGRY, "야!!!", true, eventManager.npcAngry),
                     new Dialogue(PLAYER, "어.. 안녕.."),}},
                 { OBJECTID.Box, new List<Dialogue> {
                     new Dialogue(OBJECT, "평범한 나무상자다."),}},
@@ -38,6 +42,9 @@ public class TalkManager : MonoBehaviour
                     new Dialogue(OBJECT, "돌멩이."),}},}
             },
             { 1, new Dictionary<int, List<Dialogue>>() {
+                { OBJECTID.Player, new List<Dialogue> {
+                    new Dialogue(PLAYER, "(왜 저러는 거야..)"),
+                    new Dialogue(PLAYER, "(움직여 보자.)", false, eventManager.PlayAniTween),}},
                 { OBJECTID.NpcWoman, new List<Dialogue> {
                     new Dialogue(WOMAN_ANGRY, "왜?"),
                     new Dialogue(PLAYER, "(나중에 다시 오자..)", true),}}}
@@ -66,18 +73,18 @@ public class TalkManager : MonoBehaviour
         };
         
         // 퀘스트 대상
-        targetObjects.Clear();
+        QuestTargetObjects.Clear();
         foreach (var questState in talkData) {
             foreach (var objectid in questState.Value) {
                 foreach (var dialogue in objectid.Value) {
                     if (dialogue.QuestProgress) {
-                        targetObjects.Add(objectid.Key);
+                        QuestTargetObjects.Add(objectid.Key);
                         break;
                     }
                 }
             }
         }
-        Debug.Log("퀘스트 목표 목록: " + string.Join(", ", targetObjects));
+        Debug.Log("퀘스트 목표 목록: " + string.Join(", ", QuestTargetObjects));
     }
 
     public (List<Dialogue>, int) GetTalk(int id)
