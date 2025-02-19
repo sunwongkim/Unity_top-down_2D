@@ -15,8 +15,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI QuestName;
     [Header("TALK")]
     public TalkManager talkManager;
+    public UIManager uIManager;
     public int talkIndex;
     public bool isTalking = false;
+    public bool isEvent = false;
     [Header("QUEST")]
     public int questState = 0;
     public GameObject QuestMarker;
@@ -87,5 +89,6 @@ public class GameManager : MonoBehaviour
         talkIndex++;
         isTalking = true;
         dialoguePanel.SetActive(true);
+        uIManager.DialogueCursor();
     }
 }

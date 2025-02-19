@@ -19,13 +19,7 @@ public class PlayerAction : MonoBehaviour
     currentObject = noneObject;
   }
 
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.Space))
-      CheckObject();
-  }
-
-  void CheckObject()
+  public void CheckObject()
   {
     Vector3 startPosition = ChangeDirection();
     // Raycast로 오브젝트 감지
@@ -58,7 +52,7 @@ public class PlayerAction : MonoBehaviour
 
   Vector3 ChangeDirection()
   {
-    Vector3 startPosition = transform.position; // 시작점
+    Vector3 startPosition = transform.position; // Ray 시작점
 
     switch (playerController?.direction) {
       case 0: // 상

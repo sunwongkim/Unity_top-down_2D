@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
     [Header("DoTween")]
     public DOTweenAnimation Animation;
     public DOTweenPath path;
+    public DOTweenAnimation dialogueCursor;
 
     void Update()
     {
@@ -14,4 +15,6 @@ public class UIManager : MonoBehaviour
             path?.DORestart();
         }
     }
+
+    public void DialogueCursor() => dialogueCursor.DORestartById("down");
 }

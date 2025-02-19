@@ -23,8 +23,7 @@ public class TalkManager : MonoBehaviour
             { 0, new Dictionary<int, List<Dialogue>>() {
                 { OBJECTID.Player, new List<Dialogue> {
                     new Dialogue(PLAYER, "새로운 마을이다."),
-                    new Dialogue(PLAYER, "몸을 움직여보자.", false, eventManager.PlayAniTween),
-                    new Dialogue(PLAYER, "출발해볼까."),}},
+                    new Dialogue(PLAYER, "시작해볼까."),}},
                 { OBJECTID.NpcMan, new List<Dialogue> {
                     new Dialogue(MAN_ANGRY, "처음 보는군."),
                     new Dialogue(PLAYER, "옆 마을에서 왔어.", false, eventManager.PlayAniTween),
@@ -42,9 +41,6 @@ public class TalkManager : MonoBehaviour
                     new Dialogue(OBJECT, "돌멩이."),}},}
             },
             { 1, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.Player, new List<Dialogue> {
-                    new Dialogue(PLAYER, "(왜 저러는 거야..)"),
-                    new Dialogue(PLAYER, "(움직여 보자.)", false, eventManager.PlayAniTween),}},
                 { OBJECTID.NpcWoman, new List<Dialogue> {
                     new Dialogue(WOMAN_ANGRY, "왜?"),
                     new Dialogue(PLAYER, "(나중에 다시 오자..)", true),}}}
