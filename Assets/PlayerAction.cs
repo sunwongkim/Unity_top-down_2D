@@ -31,8 +31,7 @@ public class PlayerAction : MonoBehaviour
       } else if (currentObject != noneObject) { // 전방 오브젝트 없어져도 대화 유지
         Debug.Log("대화 유지: currentObject != noneObject");
       }
-      Debug.Log("스캔: " + hit.collider.gameObject.name);
-      Debug.Log("대화중: " + currentObject.name);
+      Debug.Log($"스캔: {hit.collider.gameObject.name} / 대화중: {currentObject.name}");
     } else {
       Debug.Log("hit.collider == null");
     }
@@ -41,7 +40,7 @@ public class PlayerAction : MonoBehaviour
 
   public void ResetObject() => currentObject = noneObject;
 
-  public void PlayerObject(GameObject obj) => currentObject = obj;
+  public void SetObject(GameObject obj) => currentObject = obj;
 
   void OnDrawGizmos() // 디버그. Gizmos는 이 함수 안에서만 작동
   {
@@ -53,22 +52,13 @@ public class PlayerAction : MonoBehaviour
   Vector3 ChangeDirection()
   {
     Vector3 startPosition = transform.position; // Ray 시작점
-
-    switch (playerController?.direction) {
-      case 0: // 상
-        rayDirection = Vector3.up;
-        startPosition += new Vector3(0, rayOffset.y, 0); break;
-      case 1: // 우
-        rayDirection = Vector3.right;
-        startPosition += new Vector3(rayOffset.y, 0, 0); break;
-      case 2: // 하
-        rayDirection = Vector3.down;
-        startPosition += new Vector3(0, -rayOffset.y, 0); break;
-      case 3: // 좌
-        rayDirection = Vector3.left;
-        startPosition += new Vector3(-rayOffset.y, 0, 0); break;
-      default: rayDirection = Vector3.down; break;
-    }
-    return startPosition;
+    rayDirection = playerController?.direction switch {
+      0 => Vector3.up,
+      1 => Vector3.right,
+      2 => Vector3.down,
+      3 => Vector3.left,
+      _ => Vector3.down
+    };
+    return startPosition + rayDirection * rayOffset.y;
   }
 }

@@ -7,9 +7,9 @@ public class TalkManager : MonoBehaviour
 {
     public EventManager eventManager;
     public Sprite[] portraitArr;
-    public class OBJECTID { public const int Player = 1, Box = 100, Desk = 200, Rock = 300, NpcMan = 1000, NpcWoman = 2000; }
+    public class OBJECTID { public const int Player = 1, Inn = 100, Desk = 200, Rock = 300, Cave = 400, Trader_Woman = 1000, Trader_Man = 2000, Citizen_Woman = 3000, Monster = 4000; }
     public static List<string> QuestNames = new List<string> {
-        /*0*/"시작", /*1*/"첫인사", /*2*/"조언", /*3*/"선물", /*4*/"비밀 퀘스트", /*5*/"Q5"   
+        /*0*/"도를 전파하자", /*1*/"첫인사", /*2*/"조언", /*3*/"선물", /*4*/"비밀 퀘스트", /*5*/"Q5"   
     };
     public List<int> QuestTargetObjects = new List<int>();
     public static Sprite MAN_IDLE, MAN_TALK, MAN_SMILE, MAN_ANGRY, WOMAN_IDLE, WOMAN_TALK, WOMAN_SMILE, WOMAN_ANGRY, PLAYER, OBJECT;
@@ -22,49 +22,72 @@ public class TalkManager : MonoBehaviour
         talkData = new Dictionary<int, Dictionary<int, List<Dialogue>>>() {
             { 0, new Dictionary<int, List<Dialogue>>() {
                 { OBJECTID.Player, new List<Dialogue> {
-                    new Dialogue(PLAYER, "새로운 마을이다."),
-                    new Dialogue(PLAYER, "시작해볼까."),}},
-                { OBJECTID.NpcMan, new List<Dialogue> {
-                    new Dialogue(MAN_ANGRY, "처음 보는군."),
-                    new Dialogue(PLAYER, "옆 마을에서 왔어.", false, eventManager.PlayAniTween),
-                    new Dialogue(MAN_SMILE, "이방인은 오랜만이야."),}},
-                { OBJECTID.NpcWoman, new List<Dialogue> {
-                    new Dialogue(WOMAN_TALK, "안녕?"),
-                    new Dialogue(WOMAN_SMILE, "..대답 안하니?"),
-                    new Dialogue(WOMAN_ANGRY, "야!!!", true, eventManager.npcAngry),
-                    new Dialogue(PLAYER, "어.. 안녕.."),}},
-                { OBJECTID.Box, new List<Dialogue> {
-                    new Dialogue(OBJECT, "평범한 나무상자다."),}},
+                    new Dialogue(PLAYER, "내 이름은 알렉스. 천황교의 수석 선교사다."),
+                    new Dialogue(PLAYER, "이전 마을의 선교는 성공했다. 이젠 이 마을 차례군."),}},
+                { OBJECTID.Trader_Woman, new List<Dialogue> {
+                    new Dialogue(WOMAN_SMILE, "손님 어서오세요! 좋은 물건이 많이 들어왔답니다!", eventManager.Quest0/*6시간후 글자, 화면 어둡게*/),
+                    // 강매당함
+                    new Dialogue(WOMAN_SMILE, "감사합니다! 다음에도 부탁드릴게요!", null, true),}},
+                { OBJECTID.Trader_Man, new List<Dialogue> {
+                    new Dialogue(MAN_SMILE, "장사 준비중 입니다."),
+                    new Dialogue(MAN_SMILE, "둘러보다 오시죠."),}},
+                { OBJECTID.Citizen_Woman, new List<Dialogue> {
+                    new Dialogue(WOMAN_SMILE, "꺄르르르륵."),}},
+                { OBJECTID.Inn, new List<Dialogue> {
+                    new Dialogue(OBJECT, "여관."),}},
                 { OBJECTID.Desk, new List<Dialogue> {
-                    new Dialogue(OBJECT, "누군가 사용한 흔적이 있는 책상이다."),}},
+                    new Dialogue(OBJECT, "일기가 놓인 책상."),}},
                 { OBJECTID.Rock, new List<Dialogue> {
-                    new Dialogue(OBJECT, "돌멩이."),}},}
+                    new Dialogue(OBJECT, "동굴 앞의 바위."),}},}
             },
             { 1, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.NpcWoman, new List<Dialogue> {
-                    new Dialogue(WOMAN_ANGRY, "왜?"),
-                    new Dialogue(PLAYER, "(나중에 다시 오자..)", true),}}}
+                { OBJECTID.Inn, new List<Dialogue> {
+                    new Dialogue(PLAYER, "밤이 늦었다.. 오늘은 쉬자.. [이벤트:화면 꺼졌다 원래대로]", eventManager.Quest1, true),}}}
             },
             { 2, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.NpcWoman, new List<Dialogue> {
-                    new Dialogue(PLAYER, "안녕..?"),
-                    new Dialogue(WOMAN_ANGRY, "저리가."),}},
-                { OBJECTID.NpcMan, new List<Dialogue> {
-                    new Dialogue(MAN_SMILE, "호되게 당하더군. 이 꽃을 갖다줘봐.", true),}}}
+                { OBJECTID.Trader_Man, new List<Dialogue> {
+                    new Dialogue(PLAYER, "도를 아십니까?"),
+                    // 선교성공?
+                    new Dialogue(PLAYER, "잠시 후.. [이벤트: 글자만 보이게]", eventManager.Quest2),
+                    // 상인의 제안
+                    new Dialogue(MAN_TALK, "저기있는 책상에 갈색 노트를 가져다주게.", null, true),}},}
             },
             { 3, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.NpcWoman, new List<Dialogue> {
-                    new Dialogue(PLAYER, "오다 주웠어. 받아."),
-                    new Dialogue(WOMAN_SMILE, "고마워.", true),}}}
+                { OBJECTID.Desk, new List<Dialogue> {
+                    new Dialogue(PLAYER, "이 노트인 것 같군. 제목이.. 루나의 일기..? [이벤트: 여자 뛰어옴]", eventManager.Quest3_1),
+                    new Dialogue(WOMAN_ANGRY, "지금 뭐하시는 거에요!! [이벤트: 펄쩍뜀]", eventManager.Quest3_2),
+                    new Dialogue(WOMAN_ANGRY, "변명하지마!!! [이벤트: 공격]", eventManager.Quest3_3, true),}}}
             },
             { 4, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.Desk, new List<Dialogue> {
-                    new Dialogue(PLAYER, "책상이 왜 여기있지?"),
-                    new Dialogue(OBJECT, "만지지 마시게.", true),}}}
+                { OBJECTID.Trader_Man, new List<Dialogue> {
+                    // 상인에게 속인것을 따진다
+                    new Dialogue(PLAYER, "그냥 넘어가려고 하지마시오! [이벤트: 여자상인 등장]", eventManager.Quest4_1),
+                    // 주인공의 변명
+                    new Dialogue(WOMAN_ANGRY, "또 너야? 이번엔 이방인을 시켜?! [이벤트: 남자상인을 공격]", eventManager.Quest4_2),
+                    new Dialogue(WOMAN_ANGRY, "..외상은 꼭 갚도록 하세요.", null, true),}}}
             },
             { 5, new Dictionary<int, List<Dialogue>>() {
-                { OBJECTID.Box, new List<Dialogue> {
-                    new Dialogue(OBJECT, "QUEST 5", true),}}}
+                { OBJECTID.Citizen_Woman, new List<Dialogue> {
+                    new Dialogue(PLAYER, "하.. 이 마을은 쉽지 않군.. 시민에게 선교를 해야겠어."),
+                    // 촌장의 존재
+                    new Dialogue(WOMAN_TALK, "어차피 막혀있어서 들어가실 수 없을테니 회관에서 며칠 기다려 보세요.", null, true),}}}
+            },
+            { 6, new Dictionary<int, List<Dialogue>>() {
+                { OBJECTID.Rock, new List<Dialogue> {
+                    new Dialogue(PLAYER, "강매당한 황금 망치. 어떤 돌이든 깨부순다고 했지. 속는셈치고 한번 써볼까. [이벤트: 바위 파괴]", eventManager.Quest6),
+                    new Dialogue(PLAYER, "거짓말이 아니었어???", null, true),}}}
+            },
+            { 7, new Dictionary<int, List<Dialogue>>() {
+                { OBJECTID.Cave, new List<Dialogue> {
+                    new Dialogue(PLAYER, "마을의 주교인 촌장.. 기대되는군. [이벤트: 맵이동]", eventManager.Quest7, true),}}}
+            },
+            { 8, new Dictionary<int, List<Dialogue>>() {
+                { OBJECTID.Monster, new List<Dialogue> { // 이벤트 트리거 필요(플레이어가 동굴 깊이 들어감)
+                    new Dialogue(OBJECT, "분명 들어오지 말라고 했을텐데.. 친히 입구까지 막아놓았거늘.. [이벤트: 괴물 등장]"),
+                    new Dialogue(PLAYER, "이방인이 길을 잘못 들었습니다. 가보겠습니다. [이벤트: 괴물이 입구를 막는다.]", eventManager.Quest8_1),
+                    // 괴물 설득 실패
+                    new Dialogue(OBJECT, "... [이벤트: 화면 어두워지고 엔딩 모드]", eventManager.Quest8_2),
+                    new Dialogue(PLAYER, "독백 [이벤트: 게임클리어]", eventManager.Quest8_3),}}}
             },
         };
         
@@ -103,11 +126,11 @@ public class Dialogue
     public bool QuestProgress { get; private set; }
     public Action EventAction { get; private set; }
 
-    public Dialogue(Sprite portrait, string text, bool questProgress = false, Action eventAction = null)
+    public Dialogue(Sprite portrait, string text, Action eventAction = null, bool questProgress = false)
     {
         Portrait = portrait;
         Text = text;
-        QuestProgress = questProgress;
         EventAction = eventAction;
+        QuestProgress = questProgress;
     }
 }
