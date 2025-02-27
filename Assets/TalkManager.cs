@@ -25,30 +25,30 @@ public class TalkManager : MonoBehaviour
                     new Dialogue(PLAYER, "내 이름은 알렉스. 천황교의 수석 선교사다."),
                     new Dialogue(PLAYER, "이전 마을의 선교는 성공했다. 이젠 이 마을 차례군."),}},
                 { OBJECTID.Trader_Woman, new List<Dialogue> {
-                    new Dialogue(WOMAN_SMILE, "손님 어서오세요! 좋은 물건이 많이 들어왔답니다!", eventManager.Quest0/*6시간후 글자, 화면 어둡게*/),
-                    // 강매당함
+                    new Dialogue(WOMAN_SMILE, "손님 어서오세요! 좋은 물건이 많이 들어왔답니다!"),
+                    new Dialogue(WOMAN_SMILE, "아 그런거군요! 그럼요!", eventManager.Quest0/*화면전환-10시간후 -> 밤*/),
+                    new Dialogue(WOMAN_SMILE, "그래서 이 물건으로 말씀드리자면~"),
                     new Dialogue(WOMAN_SMILE, "감사합니다! 다음에도 부탁드릴게요!", null, true),}},
                 { OBJECTID.Trader_Man, new List<Dialogue> {
-                    new Dialogue(MAN_SMILE, "장사 준비중 입니다."),
-                    new Dialogue(MAN_SMILE, "둘러보다 오시죠."),}},
+                    new Dialogue(MAN_SMILE, "장사 준비중 입니다."),}},
                 { OBJECTID.Citizen_Woman, new List<Dialogue> {
                     new Dialogue(WOMAN_SMILE, "꺄르르르륵."),}},
                 { OBJECTID.Inn, new List<Dialogue> {
-                    new Dialogue(OBJECT, "여관."),}},
+                    new Dialogue(OBJECT, "여관"),}},
                 { OBJECTID.Desk, new List<Dialogue> {
-                    new Dialogue(OBJECT, "일기가 놓인 책상."),}},
+                    new Dialogue(OBJECT, "책상 위는 난잡하다."),}},
                 { OBJECTID.Rock, new List<Dialogue> {
-                    new Dialogue(OBJECT, "동굴 앞의 바위."),}},}
+                    new Dialogue(OBJECT, "동굴은 바위로 막혀있다."),}},}
             },
             { 1, new Dictionary<int, List<Dialogue>>() {
                 { OBJECTID.Inn, new List<Dialogue> {
-                    new Dialogue(PLAYER, "밤이 늦었다.. 오늘은 쉬자.. [이벤트:화면 꺼졌다 원래대로]", eventManager.Quest1, true),}}}
+                    new Dialogue(PLAYER, "밤이 늦었다.. 오늘은 쉬자..", eventManager.Quest1/*화면전환-다음날 -> 낮*/, true),}}}
             },
             { 2, new Dictionary<int, List<Dialogue>>() {
                 { OBJECTID.Trader_Man, new List<Dialogue> {
-                    new Dialogue(PLAYER, "도를 아십니까?"),
+                    new Dialogue(MAN_IDLE, "안살거면 가쇼."),
                     // 선교성공?
-                    new Dialogue(PLAYER, "잠시 후.. [이벤트: 글자만 보이게]", eventManager.Quest2),
+                    new Dialogue(PLAYER, "잠시 얘기 좀 나눠 보시지요.", eventManager.Quest2/*화면전환-잠시후*/),
                     // 상인의 제안
                     new Dialogue(MAN_TALK, "저기있는 책상에 갈색 노트를 가져다주게.", null, true),}},}
             },

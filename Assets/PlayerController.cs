@@ -23,8 +23,10 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.isEvent == true)
             return; 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            GameManager.Instance.ExecuteEvent();
             playerAction.CheckObject();
+        }
 
         // 대화창이 없을 때만 조작 가능
         if (GameManager.Instance.isTalking == false) {

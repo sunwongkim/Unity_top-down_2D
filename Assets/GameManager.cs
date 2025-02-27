@@ -1,6 +1,7 @@
 // GameManager.cs //
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections.Generic;
 using TMPro;
 
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject QuestMarker;
     public Vector3 markerOffset = new Vector3(0, 0, 0);
     private Dictionary<int, ObjData> npcPosition = new Dictionary<int, ObjData>();
+    public Queue<Action> eventQueue = new Queue<Action>();
 
     void Awake()
     {
@@ -80,7 +82,8 @@ public class GameManager : MonoBehaviour
         else
             DialogueText.text = $"{interactionObject.name}: {dialogue.Text}";
 
-        dialogue.EventAction?.Invoke(); // 이벤트 실행
+        if (dialogue.EventAction != null) // Queue로 이벤트 실행 동기처리
+            eventQueue.Enqueue(dialogue.EventAction);
         
         if ((currentQuest == questState) && dialogue.QuestProgress)
             questState++; // 다음 퀘스트
@@ -90,5 +93,11 @@ public class GameManager : MonoBehaviour
         isTalking = true;
         dialoguePanel.SetActive(true);
         uIManager.DialogueCursor();
+    }
+
+    public void ExecuteEvent()
+    {
+        if (eventQueue.Count > 0)
+            eventQueue.Dequeue()?.Invoke();
     }
 }

@@ -1,12 +1,17 @@
 // EventManager.cs //
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class EventManager : MonoBehaviour
 {
     PlayerController playerController;
     public DOTweenPath PathTween;
     public DOTweenAnimation AniTween;
+    public GameObject brightFilter;
+    public DOTweenAnimation turnSceneTween;
+    public TextMeshProUGUI narrator;
+    public DOTweenAnimation narratorTween;
     [Header("Not Tween")]
     public Transform target; // 이동시킬 오브젝트
     public Vector3 moveOffset; // 인스펙터에서 조절할 상대 좌표
@@ -35,19 +40,19 @@ public class EventManager : MonoBehaviour
         AniTween?.DORestart();
     }
 
-    public void Quest0() {
-        HighlightText("6시간 후");
-        Debug.Log("화면 어둡게");
-    }
-    public void Quest1() {
-        HighlightText("");
-        Debug.Log("화면 밝게");
+    public void Quest0() { // 여자상인
+        TurnScene("10시간 후..");
+        brightFilter.SetActive(true); // 밤
     }
 
-    public void Quest2() {
-        HighlightText("잠시 후");
+    public void Quest1() { // 여관 진입
+        TurnScene("다음 날");
+        brightFilter.SetActive(false); // 낮
     }
+    // 남자상인
+    public void Quest2() => TurnScene("잠시 후..");
 
+    
     public void Quest3_1() {
         Debug.Log("여자 뛰어옴(path)");
     }
@@ -78,7 +83,7 @@ public class EventManager : MonoBehaviour
 
     public void Quest7() {
         Debug.Log("맵이동");
-        HighlightText("");
+        // HighlightText("");
     }
 
     public void Quest8_1() {
@@ -92,22 +97,6 @@ public class EventManager : MonoBehaviour
         Debug.Log("클리어");
     }
 
-    public string HighlightText(string text)
-    {
-        Debug.Log(text);
-        return text;
-    }
-
-    public void setDark()
-    {
-        Debug.Log("화면 어두워짐");
-    }
-
-    public void setBright()
-    {
-        Debug.Log("화면 밝아짐");
-    }
-
     public void GameStart()
     {
         GameObject player = GameObject.FindWithTag("Player");
@@ -118,11 +107,14 @@ public class EventManager : MonoBehaviour
             Debug.Log("Player == null");
     }
 
-    public void SetMoving(bool state)
+    public void TurnScene(string text)
     {
-        GameManager.Instance.isEvent = state;
-        playerController.animator.SetBool("IsMoving", state);
+        narrator.text = text; // 엔딩 때 글자크기 바꾸는것 고려
+        turnSceneTween?.DORestart(); // ID: SetStart로 초기화 후 FROM으로 동작
+        narratorTween?.DORestart(); // 위와 동일
     }
+
+    public void SetMoving(bool state) => playerController.animator.SetBool("IsMoving", state);
 
     public void SetDirection(int i)
     {
@@ -130,4 +122,6 @@ public class EventManager : MonoBehaviour
         playerController.animator.SetInteger("Direction", i);
         playerController.animator.SetFloat("F_Direction", i);
     }
+
+    public void SetIsEvent(bool state) => GameManager.Instance.isEvent = state;
 }
